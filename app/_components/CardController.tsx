@@ -1,6 +1,7 @@
 "use client"
 
-import { Card, CardPosition } from "@/type"
+import { CardPosition } from "@/type"
+import { FIELD_ROWS, FIELD_COLS } from "../_consts/Size";
 
 type Props = {
   activeCardPosition: { x: number; y: number; }
@@ -10,9 +11,6 @@ type Props = {
   onChangeCardRotation: (rotation: number) => void
   onFixed: () => void
 }
-
-const WRAPPER_ROWS = 28
-const WRAPPER_COLS = 18
 
 export default function CardController({
   activeCardPosition,
@@ -49,7 +47,7 @@ export default function CardController({
           <div
             className="triangle-bottom"
             onClick={() => {
-              if (activeCardPosition.y > WRAPPER_ROWS - 3) return
+              if (activeCardPosition.y > FIELD_ROWS - 3) return
 
               const newPosition = { ...activeCardPosition }
               newPosition.y++
@@ -60,7 +58,7 @@ export default function CardController({
         <div
           className="triangle-right"
             onClick={() => {
-              if (activeCardPosition.x > WRAPPER_COLS - 3) return
+              if (activeCardPosition.x > FIELD_COLS - 3) return
 
               const newPosition = { ...activeCardPosition }
               newPosition.x++
