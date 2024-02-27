@@ -40,13 +40,17 @@ const rotateSquares = (squares: CardSquareType[], rotation: number): CardSquareT
   return rotatedSquares
 }
 
-export default function Editor() {
-  const WRAPPER_ROWS = 30
-  const WRAPPER_COLS = 20
+type Props = {
+  cardList: Card[]
+}
+
+export default function Editor({ cardList }: Props) {
+  const WRAPPER_ROWS = 28
+  const WRAPPER_COLS = 18
   const SQUARE_LENGTH = 12
 
   const [activeCard, setActiveCard] = useState<Card | null>(null)
-  const [activeCardPosition, setActiveCardPosition] = useState<CardPosition>({ x: 0, y: 0 })
+  const [activeCardPosition, setActiveCardPosition] = useState<CardPosition>({ x: 6, y: 16 }) // 適当
   const [activeCardRotation, setActiveCardRotation] = useState<number>(0)
   const [fixedCardInfos, setFixedCardInfos] = useState<FixedCardInfo[]>([])
 
@@ -109,57 +113,72 @@ export default function Editor() {
   })()
 
   return (
-    <div className="flex flex-col items-center">
-      <div
-        style={{ width: WRAPPER_COLS * SQUARE_LENGTH, height: WRAPPER_ROWS * SQUARE_LENGTH }}
-        className="relative flex flex-wrap"
-      >
-        {fieldSquares.map((square, index) =>
-          <div
-            key={index}
-            style={{
-              width: SQUARE_LENGTH,
-              height: SQUARE_LENGTH,
-              background: {
-                'O': 'transparent',
-                'I': 'black',
-                'X': 'gray',
-                'A': 'orange',
-                'B': 'yellow',
-                'C': 'blue',
-                'D': 'lightblue',
-              }[square],
-              borderRight: '1px solid #333',
-              borderBottom: '1px solid #333',
-            }}
-          />
-        )}
-        {activeCard && (
-          <div
-            style={{
-              width: SQUARE_LENGTH * 8,
-              height: SQUARE_LENGTH * 8,
-              top: activeCardPosition.y * SQUARE_LENGTH,
-              left: activeCardPosition.x * SQUARE_LENGTH,
-              boxSizing: 'content-box',
-              border: '1px dashed #fff',
-            }}
-            className="absolute flex flex-wrap"
-          >
-            {rotateSquares(activeCard.square, activeCardRotation).map((square, index) => (
-              <div
-                key={index}
-                style={{
-                  ...activeSquareStyle(square, isCardFixable),
-                  width: SQUARE_LENGTH,
-                  height: SQUARE_LENGTH,
-                }}
-              />
-            ))}
-          </div>
-        )}
+    <div className="flex flex-col items-center w-full">
+      <div className="flex w-full">
+        <div
+          style={{ width: WRAPPER_COLS * SQUARE_LENGTH, height: WRAPPER_ROWS * SQUARE_LENGTH }}
+          className="shrink-0 relative flex flex-wrap border border box-content border-slate-500"
+        >
+          {fieldSquares.map((square, index) =>
+            <div
+              key={index}
+              style={{
+                width: SQUARE_LENGTH,
+                height: SQUARE_LENGTH,
+                background: {
+                  'O': 'transparent',
+                  'I': 'black',
+                  'X': 'gray',
+                  'A': 'orange',
+                  'B': 'yellow',
+                  'C': 'blue',
+                  'D': 'lightblue',
+                }[square],
+                borderRight: (index + 1) % WRAPPER_COLS === 0 ? 'none' : '1px solid rgba(255, 255, 255, 0.25)',
+                borderBottom: index + 1 > (WRAPPER_ROWS - 1) * WRAPPER_COLS ? 'none' : '1px solid rgba(255, 255, 255, 0.25)',
+              }}
+            />
+          )}
+          {activeCard && (
+            <div
+              style={{
+                width: SQUARE_LENGTH * 8,
+                height: SQUARE_LENGTH * 8,
+                top: activeCardPosition.y * SQUARE_LENGTH,
+                left: activeCardPosition.x * SQUARE_LENGTH,
+                // boxSizing: 'content-box',
+                // border: '1px dashed #fff',
+              }}
+              className="absolute flex flex-wrap"
+            >
+              {rotateSquares(activeCard.square, activeCardRotation).map((square, index) => (
+                <div
+                  key={index}
+                  style={{
+                    ...activeSquareStyle(square, isCardFixable),
+                    width: SQUARE_LENGTH,
+                    height: SQUARE_LENGTH,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="grow ml-2">
+          {fixedCardInfos.map((cardInfo) => {
+            const { name, number } = cardInfo.card
+            return (
+              <span
+                key={number}
+                className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 max-w-full">
+                {name}
+              </span>
+            )
+          })}
+        </div>
       </div>
       <CardSelector
+        cardList={cardList}
         onSelect={(card) => {
           setActiveCard(card)
         }}
@@ -177,6 +196,7 @@ export default function Editor() {
               position: activeCardPosition,
               rotation: activeCardRotation,
             }]))
+            setActiveCard(null)
           }
         }}
       />
