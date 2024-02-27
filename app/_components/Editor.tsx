@@ -4,22 +4,22 @@ import { useState } from "react";
 import CardSelector from "./CardSelector";
 import { Card, CardPosition, Stage, StageSquareType, FixedCardInfo } from "@/type";
 import CardController from "./CardController";
-import { StageList } from "../_consts/Stage";
 import { FIELD_ROWS, FIELD_COLS } from "../_consts/Size";
 import EditorView from "./EditorView";
 import Util from "../_util";
 
-const stage: Stage = StageList[0]
-
 type Props = {
   cardList: Card[]
+  stageList: Stage[]
 }
 
-export default function Editor({ cardList }: Props) {
+export default function Editor({ cardList, stageList }: Props) {
   const [activeCard, setActiveCard] = useState<Card | null>(null)
   const [activeCardPosition, setActiveCardPosition] = useState<CardPosition>({ x: 6, y: 16 }) // 適当
   const [activeCardRotation, setActiveCardRotation] = useState<number>(0)
   const [fixedCardInfos, setFixedCardInfos] = useState<FixedCardInfo[]>([])
+
+  const stage: Stage = stageList[0]
 
   const fieldSquares: StageSquareType[] = (() => {
     const squares = stage.square.concat()
