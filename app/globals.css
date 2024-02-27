@@ -31,3 +31,59 @@ body {
     text-wrap: balance;
   }
 }
+
+.triangle-top {
+  --r: 8px;
+  height: 40px;
+  aspect-ratio: 2;
+  --_g: calc(var(--r)/tan(22.5deg)) bottom var(--r), #000 98%, #0000 101%;
+  -webkit-mask:
+    conic-gradient(from -22.5deg at 50% calc(100% + 100%/tan(22.5deg) - var(--r)/(3*sqrt(2) - 4)), #000 45deg, #0000 0) 0 100%/100% calc(100% - var(--r)/sqrt(2)) no-repeat,
+    radial-gradient(var(--r) at 50% calc(var(--r)*sqrt(2)), #000 98%, #0000 101%),
+    radial-gradient(var(--r) at left var(--_g)),
+    radial-gradient(var(--r) at right var(--_g));
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(45deg, #FA6900, #C02942);
+}
+
+.triangle-bottom {
+  --r: 8px;
+  height: 40px;
+  aspect-ratio: 2;
+  --_g: calc(var(--r)/tan(22.5deg)) top var(--r), #000 98%, #0000 101%;
+  -webkit-mask:
+    conic-gradient(from 157.5deg at 50% calc(var(--r)/(3*sqrt(2) - 4) - 100%/tan(22.5deg)), #000 45deg, #0000 0) 0 0/100% calc(100% - var(--r)/sqrt(2)) no-repeat,
+    radial-gradient(var(--r) at 50% calc(100% - var(--r)*sqrt(2)), #000 98%, #0000 101%),
+    radial-gradient(var(--r) at left var(--_g)),
+    radial-gradient(var(--r) at right var(--_g));
+  clip-path: polygon(50% 100%, 100% 0, 0 0);
+  background: linear-gradient(45deg, #FA6900, #C02942);
+}
+
+.triangle-left {
+  --r: 8px;
+  width: 40px;
+  aspect-ratio: 1/2;
+  --_g: calc(var(--r)/tan(22.5deg)) right var(--r), #000 98%, #0000 101%;
+  -webkit-mask:
+    conic-gradient(from 247.5deg at calc(100% + 100%/tan(22.5deg) - var(--r)/(3*sqrt(2) - 4)) 50%, #000 45deg, #0000 0) 100% 0/calc(100% - var(--r)/sqrt(2)) no-repeat,
+    radial-gradient(var(--r) at calc(var(--r)*sqrt(2)) 50%, #000 98%, #0000 101%),
+    radial-gradient(var(--r) at top var(--_g)),
+    radial-gradient(var(--r) at bottom var(--_g));
+  clip-path: polygon(0 50%, 100% 100%, 100% 0);
+  background: linear-gradient(45deg, #FA6900, #C02942);
+}
+
+.triangle-right {
+  --r: 8px;
+  width: 40px;
+  aspect-ratio: 1/2;
+  --_g: calc(var(--r)/tan(22.5deg)) left var(--r), #000 98%, #0000 101%;
+  -webkit-mask:
+    conic-gradient(from 67.5deg at calc(var(--r)/(3*sqrt(2) - 4) - 100%/tan(22.5deg)) 50%, #000 45deg, #0000 0) 0 0/calc(100% - var(--r)/sqrt(2)) no-repeat,
+    radial-gradient(var(--r) at calc(100% - var(--r)*sqrt(2)) 50%, #000 98%, #0000 101%),
+    radial-gradient(var(--r) at top var(--_g)),
+    radial-gradient(var(--r) at bottom var(--_g));
+  clip-path: polygon(100% 50%, 0 100%, 0 0);
+  background: linear-gradient(45deg, #FA6900, #C02942);
+}
